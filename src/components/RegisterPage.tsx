@@ -22,10 +22,32 @@ export default function RegisterPage() {
     e.preventDefault();
     
     const newErrors: Record<string, string> = {};
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^\d{10}$/; // Exactly 10 digits
+
+    // Full Name Validation
     if (!fullName.trim()) newErrors.fullName = 'This field is mandatory';
-    if (!phone.trim()) newErrors.phone = 'This field is mandatory';
-    if (!email.trim()) newErrors.email = 'This field is mandatory';
-    if (!password.trim()) newErrors.password = 'This field is mandatory';
+    
+    // Strict Phone Validation (10 digits only)
+    if (!phone.trim()) {
+      newErrors.phone = 'This field is mandatory';
+    } else if (!phoneRegex.test(phone.trim())) {
+      newErrors.phone = 'Phone number must be exactly 10 digits';
+    }
+    
+    // Strict Email Validation
+    if (!email.trim()) {
+      newErrors.email = 'This field is mandatory';
+    } else if (!emailRegex.test(email.trim())) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+
+    // Strict Password Validation
+    if (!password.trim()) {
+      newErrors.password = 'This field is mandatory';
+    } else if (password.trim().length < 8) {
+      newErrors.password = 'Password must be at least 8 characters';
+    }
 
     setErrors(newErrors);
 

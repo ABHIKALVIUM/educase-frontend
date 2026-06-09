@@ -16,14 +16,22 @@ export default function LoginPage() {
     e.preventDefault();
     
     const newErrors: Record<string, string> = { ...errors };
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    // Strict Email Validation
     if (!email.trim()) {
       newErrors.email = 'This field is mandatory';
+    } else if (!emailRegex.test(email)) {
+      newErrors.email = 'Please enter a valid email address';
     } else {
       delete newErrors.email;
     }
     
+    // Strict Password Validation
     if (!password.trim()) {
       newErrors.password = 'This field is mandatory';
+    } else if (password.trim().length < 8) {
+      newErrors.password = 'Password must be at least 8 characters';
     } else {
       delete newErrors.password;
     }
